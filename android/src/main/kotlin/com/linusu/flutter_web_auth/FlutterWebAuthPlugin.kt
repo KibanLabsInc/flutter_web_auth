@@ -59,7 +59,12 @@ class FlutterWebAuthPlugin(private var context: Context? = null, private var cha
           }
           intent.intent.putExtra("android.support.customtabs.extra.KEEP_ALIVE", keepAliveIntent)
 
-          intent.launchUrl(context!!, url)
+            val chromeInfo = context!!.getPackageManager().getApplicationInfo("com.android.chrome", 0)
+            if (chromeInfo.enabled) {
+                intent.intent.setPackage("com.android.chrome")
+            }
+
+            intent.launchUrl(context!!, url)
         }
         "cleanUpDanglingCalls" -> {
           callbacks.forEach{ (_, danglingResultCallback) ->
