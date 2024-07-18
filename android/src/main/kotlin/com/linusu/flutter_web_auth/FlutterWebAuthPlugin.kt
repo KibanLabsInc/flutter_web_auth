@@ -59,9 +59,13 @@ class FlutterWebAuthPlugin(private var context: Context? = null, private var cha
           }
           intent.intent.putExtra("android.support.customtabs.extra.KEEP_ALIVE", keepAliveIntent)
 
-            val chromeInfo = context!!.getPackageManager().getApplicationInfo("com.android.chrome", 0)
-            if (chromeInfo.enabled) {
-                intent.intent.setPackage("com.android.chrome")
+            try{
+                valchromeInfo=context!!.getPackageManager().getApplicationInfo("com.android.chrome",0)
+                if(chromeInfo.enabled){
+                    intent.intent.setPackage("com.android.chrome")
+                }
+            }catch(e:PackageManager.NameNotFoundException){
+                println("[FlutterWebAuth] chrome is not installed$e")
             }
 
             intent.launchUrl(context!!, url)
