@@ -1,3 +1,8 @@
+## 0.5.0+afero1.1
+- HMA-2859 - handled name not found exception when chrome is not installed
+## 0.5.0+afero1.0
+- HMA-1849 - priority given to chrome even if other are set to default browsers
+
 ## 0.5.0
 
 - 💥 Upgrade to Flutter version 3

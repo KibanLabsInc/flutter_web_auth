@@ -2,6 +2,7 @@ package com.linusu.flutter_web_auth
 
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 
 import androidx.browser.customtabs.CustomTabsIntent
@@ -59,7 +60,16 @@ class FlutterWebAuthPlugin(private var context: Context? = null, private var cha
           }
           intent.intent.putExtra("android.support.customtabs.extra.KEEP_ALIVE", keepAliveIntent)
 
-          intent.launchUrl(context!!, url)
+            try{
+                val chromeInfo = context!!.getPackageManager().getApplicationInfo("com.android.chrome", 0)
+                if (chromeInfo.enabled) {
+                    intent.intent.setPackage("com.android.chrome")
+                }
+            }catch(e:PackageManager.NameNotFoundException){
+                println("[FlutterWebAuth] chrome is not installed $e")
+            }
+
+            intent.launchUrl(context!!, url)
         }
         "cleanUpDanglingCalls" -> {
           callbacks.forEach{ (_, danglingResultCallback) ->
